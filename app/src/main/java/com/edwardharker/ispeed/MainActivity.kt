@@ -1,5 +1,6 @@
 package com.edwardharker.ispeed
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -32,7 +33,15 @@ fun Speed(speedViewState: LiveData<SpeedViewState>) {
 
 @Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
+fun LightPreview() {
+    ISpeedTheme {
+        SpeedViewState.Complete(speed = "100", retry = {}).draw()
+    }
+}
+
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun DarkPreview() {
     ISpeedTheme {
         SpeedViewState.Complete(speed = "100", retry = {}).draw()
     }

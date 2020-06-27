@@ -11,11 +11,11 @@ import androidx.ui.foundation.Text
 import androidx.ui.layout.*
 import androidx.ui.material.Button
 import androidx.ui.material.CircularProgressIndicator
+import androidx.ui.material.MaterialTheme
 import androidx.ui.material.OutlinedButton
 import androidx.ui.text.FirstBaseline
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
-import com.edwardharker.ispeed.ui.typography
 
 sealed class SpeedViewState {
     @Composable
@@ -77,14 +77,16 @@ sealed class SpeedViewState {
             Box(modifier = Modifier.fillMaxSize().wrapContentSize(Center)) {
                 Column(horizontalGravity = CenterHorizontally) {
                     Text(
-                        style = typography.h4,
+                        style = MaterialTheme.typography.h4,
+                        color = MaterialTheme.colors.onBackground,
                         text = "Error"
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = retry
-                    ) {
-                        Text("Retry")
+                    BottomContent {
+                        Button(
+                            onClick = retry
+                        ) {
+                            Text("Retry")
+                        }
                     }
                 }
             }
@@ -102,13 +104,15 @@ private fun SpeedView(
         modifier = Modifier.drawOpacity(alpha)
     ) {
         Text(
-            style = typography.h1,
+            style = MaterialTheme.typography.h1,
             modifier = Modifier.alignWithSiblings(FirstBaseline),
+            color = MaterialTheme.colors.onBackground,
             text = speed
         )
         Text(
-            style = typography.h4,
+            style = MaterialTheme.typography.h4,
             modifier = Modifier.alignWithSiblings(FirstBaseline),
+            color = MaterialTheme.colors.onBackground,
             text = "Mbps"
         )
     }

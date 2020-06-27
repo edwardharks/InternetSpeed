@@ -7,13 +7,13 @@ import androidx.ui.material.darkColorPalette
 import androidx.ui.material.lightColorPalette
 
 private val DarkColorPalette = darkColorPalette(
-    primary = primary,
+    primary = primaryDark,
     primaryVariant = primaryVariant,
     secondary = secondary
 )
 
 private val LightColorPalette = lightColorPalette(
-    primary = primary,
+    primary = primaryLight,
     primaryVariant = primaryVariant,
     secondary = secondary
 )
