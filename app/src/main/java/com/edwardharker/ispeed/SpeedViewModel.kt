@@ -23,6 +23,10 @@ class SpeedViewModel : ViewModel() {
         start()
     }
 
+    override fun onCleared() {
+        stop()
+    }
+
     private fun start() {
         viewModelScope.launch {
             withContext(IO) {
@@ -64,7 +68,7 @@ class SpeedViewModel : ViewModel() {
             speedTestError: SpeedTestError,
             errorMessage: String
         ) {
-            _viewState.postValue(SpeedViewState.Error(message = errorMessage, retry = ::start))
+            _viewState.postValue(SpeedViewState.Error(retry = ::start))
         }
     }
 }

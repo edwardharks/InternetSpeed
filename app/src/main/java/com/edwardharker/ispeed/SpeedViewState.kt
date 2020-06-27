@@ -1,20 +1,17 @@
 package com.edwardharker.ispeed
 
 import androidx.compose.Composable
-import androidx.ui.core.Alignment
 import androidx.ui.core.Alignment.Companion.Bottom
 import androidx.ui.core.Alignment.Companion.Center
 import androidx.ui.core.Alignment.Companion.CenterHorizontally
 import androidx.ui.core.Modifier
+import androidx.ui.core.drawOpacity
 import androidx.ui.foundation.Box
 import androidx.ui.foundation.Text
-import androidx.ui.graphics.Color
-import androidx.ui.graphics.Color.Companion.Transparent
 import androidx.ui.layout.*
 import androidx.ui.material.Button
 import androidx.ui.material.CircularProgressIndicator
 import androidx.ui.material.OutlinedButton
-import androidx.ui.material.TextButton
 import androidx.ui.text.FirstBaseline
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
@@ -60,7 +57,10 @@ sealed class SpeedViewState {
         override fun draw() {
             Box(modifier = Modifier.fillMaxSize().wrapContentSize(Center)) {
                 Column(horizontalGravity = CenterHorizontally) {
-                    SpeedView(speed)
+                    SpeedView(
+                        speed = speed,
+                        alpha = 0.7f
+                    )
                     BottomContent {
                         CircularProgressIndicator()
                     }
@@ -70,18 +70,21 @@ sealed class SpeedViewState {
     }
 
     class Error(
-        private val message: String,
         private val retry: () -> Unit
     ) : SpeedViewState() {
         @Composable
         override fun draw() {
             Box(modifier = Modifier.fillMaxSize().wrapContentSize(Center)) {
                 Column(horizontalGravity = CenterHorizontally) {
-                    Text(text = message)
+                    Text(
+                        style = typography.h4,
+                        text = "Error"
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
                     Button(
                         onClick = retry
                     ) {
-                        Text("Error")
+                        Text("Retry")
                     }
                 }
             }
@@ -90,8 +93,14 @@ sealed class SpeedViewState {
 }
 
 @Composable
-private fun SpeedView(speed: String) {
-    Row(verticalGravity = Bottom) {
+private fun SpeedView(
+    speed: String,
+    alpha: Float = 1f
+) {
+    Row(
+        verticalGravity = Bottom,
+        modifier = Modifier.drawOpacity(alpha)
+    ) {
         Text(
             style = typography.h1,
             modifier = Modifier.alignWithSiblings(FirstBaseline),
@@ -117,12 +126,6 @@ fun BottomContent(content: @Composable() () -> Unit) {
 
 @Preview
 @Composable
-fun Initial() {
-    SpeedViewState.Initial.draw()
-}
-
-@Preview
-@Composable
 fun Complete() {
     SpeedViewState.Complete(speed = "100", retry = {}).draw()
 }
@@ -137,5 +140,5 @@ fun Progress() {
 @Preview
 @Composable
 fun Error() {
-    SpeedViewState.Error(message = "There was an error", retry = {}).draw()
+    SpeedViewState.Error(retry = {}).draw()
 }
