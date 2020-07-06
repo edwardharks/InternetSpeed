@@ -6,9 +6,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.ui.core.setContent
 import androidx.ui.livedata.observeAsState
 import androidx.ui.tooling.preview.Preview
+import com.edwardharker.ispeed.SpeedViewState.Complete
 import com.edwardharker.ispeed.SpeedViewState.Initial
 import com.edwardharker.ispeed.ui.ISpeedTheme
 
@@ -18,31 +20,46 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ISpeedTheme {
-                Speed(speedViewModel.viewState)
-            }
+            MainActivityContent(speedViewModel.viewState)
         }
     }
 }
 
 @Composable
-fun Speed(speedViewState: LiveData<SpeedViewState>) {
+private fun MainActivityContent(viewState: LiveData<SpeedViewState>) {
+    ISpeedTheme {
+        SpeedViewState(viewState)
+    }
+}
+
+@Composable
+private fun SpeedViewState(speedViewState: LiveData<SpeedViewState>) {
     val state = speedViewState.observeAsState(Initial)
     state.value.draw()
 }
 
 @Preview(showBackground = true)
 @Composable
-fun LightPreview() {
-    ISpeedTheme {
-        SpeedViewState.Complete(speed = "100", retry = {}).draw()
-    }
+private fun LightPreview() {
+    MainActivityContent(
+        viewState = MutableLiveData(
+            Complete(
+                speed = "100",
+                retry = {}
+            )
+        )
+    )
 }
 
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun DarkPreview() {
-    ISpeedTheme {
-        SpeedViewState.Complete(speed = "100", retry = {}).draw()
-    }
+private fun DarkPreview() {
+    MainActivityContent(
+        viewState = MutableLiveData(
+            Complete(
+                speed = "100",
+                retry = {}
+            )
+        )
+    )
 }

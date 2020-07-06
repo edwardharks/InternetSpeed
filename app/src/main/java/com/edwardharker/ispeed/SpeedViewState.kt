@@ -119,7 +119,7 @@ private fun SpeedView(
 }
 
 @Composable
-fun BottomContent(content: @Composable() () -> Unit) {
+private fun BottomContent(content: @Composable() () -> Unit) {
     Box(
         modifier = Modifier.height(96.dp),
         gravity = Center
